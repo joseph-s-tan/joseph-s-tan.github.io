@@ -1,0 +1,339 @@
+/* ============================================
+   Joseph Tan, PhD — Personal Website
+   ============================================ */
+
+/* --- Reset & Base --- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  color: #2d3748;
+  background: #ffffff;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: #2b6cb0;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* --- Layout --- */
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+section {
+  padding: 5rem 0;
+}
+
+/* --- Navigation --- */
+nav {
+  position: sticky;
+  top: 0;
+  background: #1a365d;
+  z-index: 100;
+  padding: 0;
+}
+
+nav .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+}
+
+.nav-name {
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.nav-links a {
+  color: #bee3f8;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.15s;
+}
+
+.nav-links a:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* --- Hero --- */
+#hero {
+  background: #1a365d;
+  padding: 5rem 0 4rem;
+  color: #fff;
+}
+
+.hero-inner {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+
+.hero-photo {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #63b3ed;
+  flex-shrink: 0;
+}
+
+.hero-photo-placeholder {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: #2c5282;
+  border: 3px solid #63b3ed;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #bee3f8;
+  font-size: 0.8rem;
+  text-align: center;
+  padding: 1rem;
+}
+
+.hero-text h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 0.4rem;
+}
+
+.hero-text .credentials {
+  color: #63b3ed;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.hero-text p {
+  color: #bee3f8;
+  font-size: 1.05rem;
+  max-width: 560px;
+}
+
+/* --- Section Headers --- */
+.section-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #2b6cb0;
+  margin-bottom: 0.5rem;
+}
+
+h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1a365d;
+  margin-bottom: 1.5rem;
+  line-height: 1.25;
+}
+
+h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1a365d;
+  margin-bottom: 0.5rem;
+}
+
+/* --- About Section --- */
+#about {
+  background: #fff;
+}
+
+.about-body p {
+  margin-bottom: 1.25rem;
+  font-size: 1.05rem;
+  color: #4a5568;
+}
+
+.about-body p:last-child {
+  margin-bottom: 0;
+}
+
+.affiliations {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+.affiliations h3 {
+  margin-bottom: 0.75rem;
+}
+
+.affiliations ul {
+  list-style: none;
+  padding: 0;
+}
+
+.affiliations li {
+  color: #4a5568;
+  padding: 0.25rem 0;
+  padding-left: 1.25rem;
+  position: relative;
+}
+
+.affiliations li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  color: #2b6cb0;
+}
+
+/* --- Consulting Section --- */
+#consulting {
+  background: #f7fafc;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.service-card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 1.5rem;
+  border-top: 3px solid #2b6cb0;
+}
+
+.service-card h3 {
+  margin-bottom: 0.75rem;
+}
+
+.service-card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.service-card li {
+  font-size: 0.95rem;
+  color: #4a5568;
+  padding: 0.2rem 0;
+  padding-left: 1rem;
+  position: relative;
+}
+
+.service-card li::before {
+  content: "·";
+  position: absolute;
+  left: 0;
+  color: #2b6cb0;
+  font-weight: 700;
+}
+
+.engagement-note {
+  background: #ebf8ff;
+  border-left: 4px solid #2b6cb0;
+  padding: 1.25rem 1.5rem;
+  border-radius: 0 4px 4px 0;
+  color: #2c5282;
+  font-size: 0.95rem;
+}
+
+/* --- Contact Section --- */
+#contact {
+  background: #1a365d;
+  color: #fff;
+  text-align: center;
+  padding: 4rem 0;
+}
+
+#contact h2 {
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+#contact p {
+  color: #bee3f8;
+  max-width: 480px;
+  margin: 0 auto 2rem;
+  font-size: 1.05rem;
+}
+
+.contact-email {
+  display: inline-block;
+  background: #2b6cb0;
+  color: #fff;
+  padding: 0.85rem 2rem;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background 0.15s;
+}
+
+.contact-email:hover {
+  background: #2c5282;
+  text-decoration: none;
+}
+
+/* --- Footer --- */
+footer {
+  background: #0f2244;
+  color: #718096;
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 0.85rem;
+}
+
+/* --- Responsive --- */
+@media (max-width: 640px) {
+  .hero-inner {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.5rem;
+  }
+
+  .hero-text p {
+    margin: 0 auto;
+  }
+
+  .hero-text h1 {
+    font-size: 1.75rem;
+  }
+
+  .nav-links {
+    gap: 1.2rem;
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+}
