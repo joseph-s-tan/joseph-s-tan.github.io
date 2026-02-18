@@ -1,0 +1,96 @@
+/* Article page overrides for Read Only template */
+
+.article-back a {
+  font-size: 0.9em;
+  color: #888;
+  font-weight: 600;
+}
+
+.article-back a:hover {
+  color: #2b6cb0;
+}
+
+.article-meta {
+  font-size: 0.85em;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #888;
+  margin-bottom: 0.5em !important;
+}
+
+.article-body {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 1.05em;
+  line-height: 1.85;
+  color: #444;
+  margin-bottom: 2em;
+}
+
+.article-body p {
+  margin-bottom: 1.4em;
+}
+
+.article-body h2 {
+  font-family: -apple-system, "Segoe UI", sans-serif;
+  font-size: 1.2em;
+  font-weight: 700;
+  color: #3d3d3d;
+  margin: 2em 0 0.75em;
+  border: none;
+  padding: 0;
+}
+
+.article-body ul {
+  margin-bottom: 1.4em;
+}
+
+.article-author-box {
+  background: #f8f8f8;
+  border-left: 4px solid #2b6cb0;
+  padding: 1.25em 1.5em;
+  margin-top: 3em;
+  border-radius: 0 4px 4px 0;
+}
+
+.article-author-box strong {
+  display: block;
+  margin-bottom: 0.4em;
+  color: #3d3d3d;
+}
+
+.article-author-box p {
+  font-size: 0.9em;
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Writing page styles */
+.writing-meta {
+  font-size: 0.8em;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #888;
+  margin-bottom: 0.4em !important;
+}
+
+.media-year-cell {
+  font-weight: 700;
+  color: #2b6cb0;
+  white-space: nowrap;
+  vertical-align: top;
+  padding-top: 0.9em;
+  font-size: 0.9em;
+}
+
+.media-outlet-label {
+  font-size: 0.75em;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #999;
+  display: block;
+  margin-bottom: 0.2em;
+}
