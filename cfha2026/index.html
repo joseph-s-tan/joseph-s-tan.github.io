@@ -5,141 +5,146 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="CFHA 2026 workshop build brief and resources for designing a small tool with an AI agent.">
   <title>Build a Small Tool | CFHA 2026 Workshop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,300..600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/site.css">
   <style>
-    :root { --deep:#26343A; --accent:#2F7F75; --ink:#25313B; --line:#D7DADF; --soft:#F4F5F6; --white:#fff; --focus:#4B8EBD; }
-    * { box-sizing:border-box; }
-    html { scroll-behavior:smooth; }
-    body { margin:0; color:var(--ink); background:var(--white); font-family:system-ui,-apple-system,"Segoe UI",sans-serif; line-height:1.55; }
-    a { color:var(--deep); text-underline-offset:3px; }
-    a:hover { color:#1D685F; }
-    a:focus-visible, button:focus-visible, textarea:focus-visible { outline:3px solid var(--focus); outline-offset:3px; }
-    .wrap { width:min(1120px,calc(100% - 40px)); margin-inline:auto; }
-    .topline { height:8px; background:var(--accent); }
-    header { border-bottom:1px solid var(--line); background:var(--white); }
-    .header-inner { display:flex; align-items:center; justify-content:space-between; gap:24px; padding:16px 0; }
-    .site-mark { display:flex; gap:10px; align-items:baseline; color:var(--deep); }
-    .site-mark strong { font-size:1.05rem; letter-spacing:.02em; }
-    .site-mark span { font-size:.86rem; color:#58656B; }
-    .eyebrow { color:var(--deep); font-size:.76rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
-    .hero { padding:56px 0 50px; background:var(--deep); color:var(--white); }
-    .hero .eyebrow { color:#B4E5DA; }
-    h1,h2,h3,p { margin-top:0; }
-    h1 { font-size:clamp(2.15rem,5vw,3.8rem); line-height:1.12; max-width:850px; margin:12px 0 20px; letter-spacing:-.035em; }
-    .hero p { max-width:760px; font-size:1.12rem; color:#F4F5F6; }
-    .hero-actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:28px; }
-    .button { display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:10px 18px; border-radius:5px; border:2px solid var(--deep); background:var(--deep); color:var(--white); font:inherit; font-weight:750; text-decoration:none; cursor:pointer; }
-    .button:hover { color:var(--white); background:#38515A; }
-    .button.light { background:var(--white); color:var(--deep); border-color:var(--white); }
-    .button.light:hover { color:var(--deep); background:#EDEEF1; }
-    .button.outline { background:var(--white); color:var(--deep); }
-    .button.outline:hover { background:var(--soft); color:var(--deep); }
-    .notice { margin-top:24px; padding:14px 18px; border-left:5px solid var(--accent); background:#fff; color:var(--deep); font-weight:700; }
-    section { padding:48px 0; }
-    section.alt { background:var(--soft); }
-    h2 { color:var(--deep); font-size:clamp(1.65rem,3vw,2.25rem); line-height:1.2; margin-bottom:12px; }
-    h3 { color:var(--deep); font-size:1.14rem; line-height:1.3; margin-bottom:8px; }
-    .intro { max-width:760px; margin-bottom:28px; }
+    .ws-hero { padding-block:clamp(48px,8vw,80px); }
+    .ws-hero .wrap { display:flex; flex-direction:column; gap:22px; }
+    .ws-meta { display:flex; flex-wrap:wrap; gap:6px 20px; font-size:13px; color:var(--dk-muted); padding-bottom:22px; border-bottom:1px solid var(--dk-line); }
+    .ws-meta strong { color:var(--dk-text); font-weight:600; }
+    .ws-hero h1 { max-width:850px; }
+    .ws-hero p.lead { max-width:760px; font-size:18px; line-height:1.65; color:#d6dbd3; }
+    .notice { max-width:760px; padding:16px 20px; border:1px solid #3e5047; background:#1e2b25; color:var(--dk-text); font-weight:500; font-size:15px; }
+    .intro { max-width:760px; margin:14px 0 32px; font-size:16px; line-height:1.7; color:var(--body); }
     .fields { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
-    .field { background:var(--white); border:1px solid var(--line); border-top:5px solid var(--accent); border-radius:7px; padding:20px; }
-    .field label { display:block; color:var(--deep); font-weight:800; margin-bottom:8px; }
-    .field .num { display:inline-grid; place-items:center; width:27px; height:27px; border-radius:50%; background:var(--accent); color:var(--white); margin-right:8px; font-size:.85rem; }
-    .field p { margin:0 0 12px; font-size:.92rem; }
-    .field textarea { display:block; width:100%; min-height:104px; padding:11px; border:1.5px solid #8992A3; border-radius:4px; resize:vertical; font:inherit; color:var(--ink); background:var(--white); }
-    .example { margin-top:10px; color:#5C5C5E; font-size:.85rem; }
-    .field-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:22px; }
-    .small { font-size:.85rem; }
-    #copy-status { min-height:1.5em; color:var(--deep); font-weight:700; margin-top:10px; }
-    .steps { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; margin-top:24px; }
-    .step { padding:20px; border:1px solid var(--line); border-radius:7px; background:var(--white); }
-    .step strong { display:block; color:var(--accent); margin-bottom:8px; font-size:1.05rem; }
-    .handoff { padding:22px; border-left:5px solid var(--accent); background:var(--soft); max-width:900px; }
-    .handoff p:last-child { margin-bottom:0; }
-    .resource-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin-top:25px; }
-    .resource { padding:20px; border:1px solid var(--line); border-radius:7px; }
-    .resource .tag { display:inline-block; color:var(--deep); font-size:.75rem; font-weight:800; letter-spacing:.05em; text-transform:uppercase; margin-bottom:10px; }
-    .resource p { font-size:.94rem; margin-bottom:10px; }
-    .resource a { font-weight:750; }
-    footer { background:var(--deep); color:var(--white); padding:28px 0; font-size:.83rem; }
-    footer p { margin-bottom:6px; }
-    @media (max-width:760px) { .header-inner { align-items:flex-start; flex-direction:column; gap:5px; } .site-mark { flex-wrap:wrap; } .fields,.resource-grid { grid-template-columns:1fr; } .steps { grid-template-columns:repeat(2,minmax(0,1fr)); } }
-    @media (max-width:480px) { .steps { grid-template-columns:1fr; } .wrap { width:min(100% - 28px,1120px); } section { padding:36px 0; } }
-    @media print { .hero { color:var(--deep); background:#fff; padding:22px 0; } .hero p,.hero .eyebrow { color:var(--deep); } .hero-actions,.field-actions { display:none; } .field { break-inside:avoid; } section { padding:20px 0; } }
+    .field { background:var(--paper); border:1px solid var(--line); padding:24px; display:flex; flex-direction:column; gap:10px; }
+    .field label { display:flex; align-items:center; gap:10px; font-weight:600; font-size:16px; color:var(--ink); }
+    .num { display:inline-grid; place-items:center; width:28px; height:28px; border-radius:50%; background:var(--forest); color:#fff; font-size:13px; font-weight:600; flex:none; }
+    .field p { font-size:14.5px; line-height:1.55; color:var(--body); }
+    .field textarea { width:100%; min-height:108px; padding:12px; border:1px solid #b9ad97; border-radius:2px; resize:vertical; font:inherit; font-size:15px; color:var(--ink); background:#fff; }
+    .field textarea:focus { border-color:var(--forest); }
+    .example { font-size:13.5px; line-height:1.5; color:var(--muted); }
+    .field-actions { margin-top:24px; }
+    #copy-status { min-height:1.5em; color:var(--forest); font-weight:600; margin-top:12px; }
+    .small { font-size:14px; color:var(--muted); }
+    .handoff { background:var(--band); padding:28px; max-width:900px; margin-top:24px; display:flex; flex-direction:column; gap:10px; }
+    .handoff h3 { font-family:var(--serif); font-size:22px; font-weight:500; }
+    .handoff p { font-size:16px; line-height:1.7; color:var(--body); }
+    .steps { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:24px; }
+    .step { background:var(--paper); padding:22px; font-size:15px; line-height:1.55; color:var(--body); }
+    .step strong { display:block; font-weight:600; color:var(--forest); margin-bottom:8px; font-size:16px; }
+    .resource-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin-top:28px; }
+    .resource { background:var(--paper); border:1px solid var(--line); padding:26px; display:flex; flex-direction:column; gap:10px; }
+    .band .resource { background:var(--paper); }
+    .resource h3 { font-family:var(--serif); font-size:22px; font-weight:500; line-height:1.25; }
+    .resource p { font-size:15px; line-height:1.6; color:var(--body); }
+    .resource a { font-weight:500; font-size:15px; }
+    .tag { font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--forest); }
+    .ws-footer { padding-block:36px; font-size:14px; line-height:1.6; color:var(--dk-muted); }
+    .ws-footer .wrap { display:flex; flex-direction:column; gap:8px; }
+    .ws-footer .home { display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px; padding-top:20px; margin-top:12px; border-top:1px solid var(--dk-line); color:var(--dk-text); }
+    @media (max-width:860px) { .fields, .resource-grid { grid-template-columns:1fr; } .steps { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+    @media (max-width:480px) { .steps { grid-template-columns:1fr; } .field { padding:20px; } }
+    @media print {
+      .site-nav, .ws-hero .actions, .field-actions { display:none; }
+      .ws-hero, .ws-footer { background:#fff; color:var(--ink); }
+      .ws-hero p.lead, .ws-meta, .ws-meta strong, .ws-hero .eyebrow, .ws-footer, .notice { color:var(--ink); background:#fff; }
+      .field { break-inside:avoid; }
+      .section { padding-block:20px; }
+    }
   </style>
 </head>
 <body>
-  <div class="topline"></div>
-  <header><div class="wrap header-inner">
-    <div class="site-mark"><strong>Build a Small Tool</strong><span>Workshop companion</span></div>
-    <div class="eyebrow">Joey Tan + Allie Mann · CFHA 2026</div>
-  </div></header>
+  <header class="site-nav">
+    <div class="wrap">
+      <a class="brand" href="../index.html">Joseph Tan, PhD</a>
+      <span class="nav-note">CFHA 2026 workshop</span>
+    </div>
+  </header>
 
   <main>
-    <div class="hero"><div class="wrap">
-      <div class="eyebrow">Design → build → check → revise</div>
-      <h1>Build the small tool your setting needs.</h1>
-      <p>Use this page to turn one recurring training, education, or operations problem into a brief you can hand to an AI agent. You can complete the brief without opening a build tool during the workshop.</p>
-      <div class="hero-actions"><a class="button light" href="#brief">Fill in the six fields</a><a class="button light" href="#next">See what happens next</a></div>
-      <div class="notice">Workshop rule: do not enter patient information. Use public, synthetic, or permission-cleared sources.</div>
-    </div></div>
-
-    <section id="brief" class="alt"><div class="wrap">
-      <div class="eyebrow">Your ready-to-run brief</div>
-      <h2>Six decisions before you ask an agent to build</h2>
-      <p class="intro">Write enough that someone else could tell what to build, what to avoid, and how to test it. Examples show a trainee onboarding navigator; replace them with your own idea. Text entered here stays in this browser session until you copy or download it; this page does not submit it to a server.</p>
-      <div class="fields">
-        <div class="field"><label for="f1"><span class="num">1</span>User and job</label><p>Who needs the tool, when, and what should they accomplish?</p><textarea id="f1" placeholder="This tool is for… when… It helps them…"></textarea><div class="example">Example: A new practicum student finds the next onboarding activity and its source link.</div></div>
-        <div class="field"><label for="f2"><span class="num">2</span>Approved source</label><p>What materials or rules should the agent use? What if they are incomplete?</p><textarea id="f2" placeholder="Use these approved materials… If something is missing, flag it…"></textarea><div class="example">Example: Use a cleared sample checklist. Preserve timing and flag missing links.</div></div>
-        <div class="field"><label for="f3"><span class="num">3</span>First version</label><p>What are the two or three essential things it should do?</p><textarea id="f3" placeholder="Build a first version that lets the user…"></textarea><div class="example">Example: Show this week's tasks, source links, and a progress check.</div></div>
-        <div class="field"><label for="f4"><span class="num">4</span>Boundaries</label><p>What must it avoid collecting, inferring, claiming, or publishing?</p><textarea id="f4" placeholder="Do not…"></textarea><div class="example">Example: No patient data or trainee evaluations; do not generate new clinical guidance.</div></div>
-        <div class="field"><label for="f5"><span class="num">5</span>Acceptance test</label><p>What safe example will show whether it works? What would make you revise it?</p><textarea id="f5" placeholder="Given this safe scenario… I expect… Revise if…"></textarea><div class="example">Example: A Week 1 user sees Week 1 tasks; progress survives refresh.</div></div>
-        <div class="field"><label for="f6"><span class="num">6</span>Human review</label><p>Who checks the result before anyone else uses it?</p><textarea id="f6" placeholder="Reviewer… They must check…"></textarea><div class="example">Example: A supervisor checks source coverage and links; a trainee tests usability.</div></div>
+    <div class="ws-hero dark">
+      <div class="wrap">
+        <div class="ws-meta"><strong>Build a Small Tool</strong><span>Workshop companion</span><span>Joey Tan + Allie Mann · CFHA 2026</span></div>
+        <p class="eyebrow">Design → build → check → revise</p>
+        <h1 class="display">Build the small tool your setting needs.</h1>
+        <p class="lead">Use this page to turn one recurring training, education, or operations problem into a brief you can hand to an AI agent. You can complete the brief without opening a build tool during the workshop.</p>
+        <div class="actions"><a class="btn" href="#brief">Fill in the six fields</a><a class="btn ghost" href="#next">See what happens next</a></div>
+        <div class="notice">Workshop rule: do not enter patient information. Use public, synthetic, or permission-cleared sources.</div>
       </div>
-      <div class="field-actions"><button class="button" id="copy-brief" type="button">Copy agent-ready brief</button><button class="button outline" id="download-brief" type="button">Download as text</button><button class="button outline" id="print-page" type="button">Print this page</button></div>
-      <div id="copy-status" role="status" aria-live="polite"></div>
-      <p class="small">Attach the approved source separately when you run the brief. Avoid entering confidential material in this page or an unapproved tool.</p>
-    </div></section>
+    </div>
 
-    <section id="next"><div class="wrap">
-      <div class="eyebrow">After the workshop</div>
-      <h2>Hand it off, then expect a revision</h2>
-      <div class="handoff"><h3>What the copied brief asks an agent to do</h3><p>Inspect the supplied source; flag missing or conflicting material; build the smallest working version within your boundaries; run your acceptance test; report what passed, failed, or could not be checked; and explain the result. It asks before publishing, connecting accounts, using sensitive data, or taking consequential actions.</p></div>
-      <div class="steps">
-        <div class="step"><strong>1. Try your test</strong>Use the safe scenario you wrote, not a real patient case.</div>
-        <div class="step"><strong>2. Check source and claims</strong>Find what the agent preserved, omitted, or invented.</div>
-        <div class="step"><strong>3. Request one revision</strong>Name the behavior that failed and what success looks like.</div>
-        <div class="step"><strong>4. Retest and review</strong>Keep the brief, source, and revision notes together.</div>
+    <section id="brief" class="section band">
+      <div class="wrap">
+        <p class="eyebrow">Your ready-to-run brief</p>
+        <h2 class="h2" style="margin-top:12px">Six decisions before you ask an agent to build</h2>
+        <p class="intro">Write enough that someone else could tell what to build, what to avoid, and how to test it. Examples show a trainee onboarding navigator; replace them with your own idea. Text entered here stays in this browser session until you copy or download it; this page does not submit it to a server.</p>
+        <div class="fields">
+          <div class="field"><label for="f1"><span class="num">1</span>User and job</label><p>Who needs the tool, when, and what should they accomplish?</p><textarea id="f1" placeholder="This tool is for… when… It helps them…"></textarea><div class="example">Example: A new practicum student finds the next onboarding activity and its source link.</div></div>
+          <div class="field"><label for="f2"><span class="num">2</span>Approved source</label><p>What materials or rules should the agent use? What if they are incomplete?</p><textarea id="f2" placeholder="Use these approved materials… If something is missing, flag it…"></textarea><div class="example">Example: Use a cleared sample checklist. Preserve timing and flag missing links.</div></div>
+          <div class="field"><label for="f3"><span class="num">3</span>First version</label><p>What are the two or three essential things it should do?</p><textarea id="f3" placeholder="Build a first version that lets the user…"></textarea><div class="example">Example: Show this week's tasks, source links, and a progress check.</div></div>
+          <div class="field"><label for="f4"><span class="num">4</span>Boundaries</label><p>What must it avoid collecting, inferring, claiming, or publishing?</p><textarea id="f4" placeholder="Do not…"></textarea><div class="example">Example: No patient data or trainee evaluations; do not generate new clinical guidance.</div></div>
+          <div class="field"><label for="f5"><span class="num">5</span>Acceptance test</label><p>What safe example will show whether it works? What would make you revise it?</p><textarea id="f5" placeholder="Given this safe scenario… I expect… Revise if…"></textarea><div class="example">Example: A Week 1 user sees Week 1 tasks; progress survives refresh.</div></div>
+          <div class="field"><label for="f6"><span class="num">6</span>Human review</label><p>Who checks the result before anyone else uses it?</p><textarea id="f6" placeholder="Reviewer… They must check…"></textarea><div class="example">Example: A supervisor checks source coverage and links; a trainee tests usability.</div></div>
+        </div>
+        <div class="actions field-actions"><button class="btn" id="copy-brief" type="button">Copy agent-ready brief</button><button class="btn ghost" id="download-brief" type="button">Download as text</button><button class="btn ghost" id="print-page" type="button">Print this page</button></div>
+        <div id="copy-status" role="status" aria-live="polite"></div>
+        <p class="small">Attach the approved source separately when you run the brief. Avoid entering confidential material in this page or an unapproved tool.</p>
       </div>
-      <p style="margin-top:22px;max-width:850px">A working preview is a prototype. Patient-facing content, clinical claims, and local workflows need appropriate evidence and human review before use.</p>
-    </div></section>
+    </section>
 
-    <section class="alt" id="demos"><div class="wrap">
-      <div class="eyebrow">Workshop demonstrations</div>
-      <h2>Two build stories, one design method</h2>
-      <div class="resource-grid">
-        <div class="resource"><span class="tag">Joey's demo</span><h3>Practicum Training navigator</h3><p>An existing onboarding checklist became a browser tool with pacing, support-mode filters, progress tracking, and source flags. The demo highlights how an agent can inspect a source and build an interface, and why a person must verify coverage and boundaries.</p><p class="small">The source-based screenshot story and any viewer link will appear here after content and access review.</p></div>
-        <div class="resource"><span class="tag">Allie's demo</span><h3>Tool selected by Allie</h3><p>Allie will choose between her values card sort and sleep behavior change menu. Her build story will follow the same six brief fields and show the specific agent capabilities observed in that build.</p><p class="small">Selection, source review, and sharing details are pending presenter review.</p></div>
+    <section id="next" class="section">
+      <div class="wrap">
+        <p class="eyebrow">After the workshop</p>
+        <h2 class="h2" style="margin-top:12px">Hand it off, then expect a revision</h2>
+        <div class="handoff"><h3>What the copied brief asks an agent to do</h3><p>Inspect the supplied source; flag missing or conflicting material; build the smallest working version within your boundaries; run your acceptance test; report what passed, failed, or could not be checked; and explain the result. It asks before publishing, connecting accounts, using sensitive data, or taking consequential actions.</p></div>
+        <div class="steps">
+          <div class="step"><strong>1. Try your test</strong>Use the safe scenario you wrote, not a real patient case.</div>
+          <div class="step"><strong>2. Check source and claims</strong>Find what the agent preserved, omitted, or invented.</div>
+          <div class="step"><strong>3. Request one revision</strong>Name the behavior that failed and what success looks like.</div>
+          <div class="step"><strong>4. Retest and review</strong>Keep the brief, source, and revision notes together.</div>
+        </div>
+        <p style="margin-top:24px;max-width:850px;font-size:15px;line-height:1.65;color:var(--body)">A working preview is a prototype. Patient-facing content, clinical claims, and local workflows need appropriate evidence and human review before use.</p>
       </div>
-    </div></section>
+    </section>
 
-    <section id="explore"><div class="wrap">
-      <div class="eyebrow">Explore tools thoughtfully</div>
-      <h2>Compare what a tool lets you inspect and revise</h2>
-      <p class="intro">These links are starting points, not a ranked recommendation. Use the same safe brief to compare setup effort, source handling, preview and revision, export or sharing, and whether your account is approved for the data and actions involved. Product features and access terms can change.</p>
-      <div class="resource-grid">
-        <div class="resource"><span class="tag">Build environment</span><h3>Google AI Studio Build</h3><p>Official guide to prompting, previewing, and revising an app.</p><a href="https://ai.google.dev/gemini-api/docs/aistudio-build-mode" target="_blank" rel="noopener noreferrer">Read the Google guide →</a></div>
-        <div class="resource"><span class="tag">Agent in chat/workspace</span><h3>Claude Cowork</h3><p>Official guide to agentic tasks in Claude.</p><a href="https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork" target="_blank" rel="noopener noreferrer">Read the Claude guide →</a></div>
-        <div class="resource"><span class="tag">Agent in chat/workspace</span><h3>ChatGPT Work and Codex</h3><p>Official overview of agentic work in the OpenAI ecosystem.</p><a href="https://help.openai.com/en/articles/20001275-chatgpt-work-and-codex" target="_blank" rel="noopener noreferrer">Read the OpenAI guide →</a></div>
-        <div class="resource"><span class="tag">Capability tour</span><h3>Simon Willison's NICAR workshop</h3><p>A worked introduction to coding agents through concrete tasks and checks.</p><a href="https://simonw.github.io/nicar-2026-coding-agents/" target="_blank" rel="noopener noreferrer">Explore the workshop →</a></div>
+    <section id="demos" class="section band">
+      <div class="wrap">
+        <p class="eyebrow">Workshop demonstrations</p>
+        <h2 class="h2" style="margin-top:12px">Two build stories, one design method</h2>
+        <div class="resource-grid">
+          <div class="resource"><span class="tag">Joey's demo</span><h3>Practicum Training navigator</h3><p>An existing onboarding checklist became a browser tool with pacing, support-mode filters, progress tracking, and source flags. The demo highlights how an agent can inspect a source and build an interface, and why a person must verify coverage and boundaries.</p><p class="small">The source-based screenshot story and any viewer link will appear here after content and access review.</p></div>
+          <div class="resource"><span class="tag">Allie's demo</span><h3>Tool selected by Allie</h3><p>Allie will choose between her values card sort and sleep behavior change menu. Her build story will follow the same six brief fields and show the specific agent capabilities observed in that build.</p><p class="small">Selection, source review, and sharing details are pending presenter review.</p></div>
+        </div>
       </div>
-      <p class="small" style="margin-top:20px">Resource links checked 23 September 2026.</p>
-    </div></section>
+    </section>
+
+    <section id="explore" class="section">
+      <div class="wrap">
+        <p class="eyebrow">Explore tools thoughtfully</p>
+        <h2 class="h2" style="margin-top:12px">Compare what a tool lets you inspect and revise</h2>
+        <p class="intro">These links are starting points, not a ranked recommendation. Use the same safe brief to compare setup effort, source handling, preview and revision, export or sharing, and whether your account is approved for the data and actions involved. Product features and access terms can change.</p>
+        <div class="resource-grid">
+          <div class="resource"><span class="tag">Build environment</span><h3>Google AI Studio Build</h3><p>Official guide to prompting, previewing, and revising an app.</p><a href="https://ai.google.dev/gemini-api/docs/aistudio-build-mode" target="_blank" rel="noopener noreferrer">Read the Google guide →</a></div>
+          <div class="resource"><span class="tag">Agent in chat/workspace</span><h3>Claude Cowork</h3><p>Official guide to agentic tasks in Claude.</p><a href="https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork" target="_blank" rel="noopener noreferrer">Read the Claude guide →</a></div>
+          <div class="resource"><span class="tag">Agent in chat/workspace</span><h3>ChatGPT Work and Codex</h3><p>Official overview of agentic work in the OpenAI ecosystem.</p><a href="https://help.openai.com/en/articles/20001275-chatgpt-work-and-codex" target="_blank" rel="noopener noreferrer">Read the OpenAI guide →</a></div>
+          <div class="resource"><span class="tag">Capability tour</span><h3>Simon Willison's NICAR workshop</h3><p>A worked introduction to coding agents through concrete tasks and checks.</p><a href="https://simonw.github.io/nicar-2026-coding-agents/" target="_blank" rel="noopener noreferrer">Explore the workshop →</a></div>
+        </div>
+        <p class="small" style="margin-top:20px">Resource links checked 23 September 2026.</p>
+      </div>
+    </section>
   </main>
 
-  <footer><div class="wrap">
-    <p>CFHA 2026 workshop resource · Updated 23 September 2026</p>
-    <p>Prepared by Joey Tan and Allie Mann, University of Virginia Department of Family Medicine. Hosted on Joey's personal site; this is not an official UVA Health webpage.</p>
-    <p>Companion to the participant build brief. Demo materials will be added after presenter review. Source: <a style="color:#fff" href="#brief">six-field build brief</a>.</p>
-  </div></footer>
+  <footer class="ws-footer dark">
+    <div class="wrap">
+      <p>CFHA 2026 workshop resource · Updated 23 September 2026</p>
+      <p>Prepared by Joey Tan and Allie Mann, University of Virginia Department of Family Medicine. Hosted on Joey's personal site; this is not an official UVA Health webpage.</p>
+      <p>Companion to the participant build brief. Demo materials will be added after presenter review. Source: <a href="#brief">six-field build brief</a>.</p>
+      <div class="home"><span>More from Joseph Tan, PhD on behavioral health integration</span><a href="../index.html">Visit the homepage →</a></div>
+    </div>
+  </footer>
 
   <script>
     const labels = ['User and job','Approved source','First version','Boundaries','Acceptance test','Human review'];
