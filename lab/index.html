@@ -11,15 +11,15 @@
   <link rel="stylesheet" href="../css/site.css">
   <style>
     .shelf + .shelf { border-top:1px solid var(--line); }
-    .shelf-head { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:12px 64px; align-items:end; margin-bottom:32px; }
-    .shelf-head p { font-size:16px; line-height:1.7; color:var(--body); }
+    .shelf-head { display:flex; flex-direction:column; gap:10px; margin-bottom:28px; }
+    .shelf-head p { font-size:16px; line-height:1.7; color:var(--body); max-width:640px; }
     .card.pending { background:transparent; border-style:dashed; border-color:var(--edge); }
     .card.pending .card-meta { color:var(--muted); }
     .ground-rules { list-style:none; padding:0; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:28px; }
     .ground-rules li { display:flex; flex-direction:column; gap:8px; font-size:15px; line-height:1.65; color:var(--body); }
     .ground-rules strong { font-size:16px; font-weight:600; color:var(--ink); }
     @media (max-width:860px) {
-      .shelf-head, .ground-rules { grid-template-columns:1fr; gap:16px; }
+      .ground-rules { grid-template-columns:1fr; gap:16px; }
     }
   </style>
 </head>
@@ -78,7 +78,7 @@
         <div class="cards">
           <div class="card pending">
             <span class="card-meta">In progress</span>
-            <span class="card-title">First tools coming this fall</span>
+            <span class="card-title">First tools in progress</span>
             <span class="card-desc">Workflow and planning aids for behavioral health integration in primary care.</span>
           </div>
         </div>
