@@ -42,16 +42,26 @@
     .resource p { font-size:15px; line-height:1.6; color:var(--body); }
     .resource a { font-weight:500; font-size:15px; }
     .tag { font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--forest); }
+    .quick { max-width:900px; margin-top:24px; padding:18px 20px; background:var(--paper); border:1px solid var(--edge); display:flex; gap:14px; align-items:flex-start; }
+    .quick input { width:20px; height:20px; margin-top:2px; accent-color:var(--forest); flex:none; }
+    .quick label { font-weight:600; font-size:16px; color:var(--ink); cursor:pointer; }
+    .quick p { font-size:14.5px; line-height:1.55; color:var(--body); margin-top:4px; }
+    .paths { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin-top:24px; }
+    .path { background:var(--paper); border:1px solid var(--line); padding:26px; display:flex; flex-direction:column; gap:12px; }
+    .path h3 { font-family:var(--serif); font-size:22px; font-weight:500; line-height:1.25; }
+    .path ol { padding-left:20px; display:flex; flex-direction:column; gap:8px; font-size:15px; line-height:1.55; color:var(--body); }
+    .sub-h { font-family:var(--serif); font-size:22px; font-weight:500; margin-top:40px; }
     .ws-footer { padding-block:36px; font-size:14px; line-height:1.6; color:var(--dk-muted); }
     .ws-footer .wrap { display:flex; flex-direction:column; gap:8px; }
     .ws-footer .home { display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px; padding-top:20px; margin-top:12px; border-top:1px solid var(--dk-line); color:var(--dk-text); }
-    @media (max-width:860px) { .fields, .resource-grid { grid-template-columns:1fr; } .steps { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+    @media (max-width:860px) { .fields, .resource-grid, .paths { grid-template-columns:1fr; } .steps { grid-template-columns:repeat(2,minmax(0,1fr)); } }
     @media (max-width:480px) { .steps { grid-template-columns:1fr; } .field { padding:20px; } }
     @media print {
       .site-nav, .ws-hero .actions, .field-actions { display:none; }
       .ws-hero, .ws-footer { background:#fff; color:var(--ink); }
       .ws-hero p.lead, .ws-meta, .ws-meta strong, .ws-hero .eyebrow, .ws-footer, .notice { color:var(--ink); background:#fff; }
-      .field { break-inside:avoid; }
+      .field, .path { break-inside:avoid; }
+      .quick { display:none; }
       .section { padding-block:20px; }
     }
   </style>
@@ -67,11 +77,11 @@
   <main>
     <div class="ws-hero dark">
       <div class="wrap">
-        <div class="ws-meta"><strong>Build a Small Tool</strong><span>Workshop companion</span><span>Joey Tan + Allie Mann · CFHA 2026</span></div>
+        <div class="ws-meta"><strong>Build a Small Tool</strong><span>Workshop companion</span><span>Joey Tan + Allie Mann · CFHA 2026 · Session B09</span></div>
         <p class="eyebrow">Design → build → check → revise</p>
         <h1 class="display">Build the small tool your setting needs.</h1>
         <p class="lead">Use this page to turn one recurring training, education, or operations problem into a brief you can hand to an AI agent. You can complete the brief without opening a build tool during the workshop.</p>
-        <div class="actions"><a class="btn" href="#brief">Fill in the six fields</a><a class="btn ghost" href="#next">See what happens next</a></div>
+        <div class="actions"><a class="btn" href="#brief">Fill in the six fields</a><a class="btn ghost" href="#demos">See the two demos</a></div>
         <div class="notice">Workshop rule: do not enter patient information. Use public, synthetic, or permission-cleared sources.</div>
       </div>
     </div>
@@ -89,22 +99,33 @@
           <div class="field"><label for="f5"><span class="num">5</span>Acceptance test</label><p>What safe example will show whether it works? What would make you revise it?</p><textarea id="f5" placeholder="Given this safe scenario… I expect… Revise if…"></textarea><div class="example">Example: A Week 1 user sees Week 1 tasks; progress survives refresh.</div></div>
           <div class="field"><label for="f6"><span class="num">6</span>Human review</label><p>Who checks the result before anyone else uses it?</p><textarea id="f6" placeholder="Reviewer… They must check…"></textarea><div class="example">Example: A supervisor checks source coverage and links; a trainee tests usability.</div></div>
         </div>
+        <div class="quick"><input type="checkbox" id="quick-start"><div><label for="quick-start">Quick start: I don't have my source with me yet</label><p>Changes the copied brief so the agent builds a quick sketch with clearly labeled placeholder content, then lists the source material and decisions it needs from you. Useful for trying an agent during the workshop. Untick it when you are ready to attach your source.</p></div></div>
         <div class="actions field-actions"><button class="btn" id="copy-brief" type="button">Copy agent-ready brief</button><button class="btn ghost" id="download-brief" type="button">Download as text</button><button class="btn ghost" id="print-page" type="button">Print this page</button></div>
         <div id="copy-status" role="status" aria-live="polite"></div>
-        <p class="small">Attach the approved source separately when you run the brief. Avoid entering confidential material in this page or an unapproved tool.</p>
+        <p class="small">For a full build, attach the approved source separately when you run the brief. Avoid entering confidential material in this page or an unapproved tool.</p>
       </div>
     </section>
 
     <section id="next" class="section">
       <div class="wrap">
-        <p class="eyebrow">After the workshop</p>
-        <h2 class="h2" style="margin-top:12px">Hand it off, then expect a revision</h2>
-        <div class="handoff"><h3>What the copied brief asks an agent to do</h3><p>Inspect the supplied source; flag missing or conflicting material; build the smallest working version within your boundaries; run your acceptance test; report what passed, failed, or could not be checked; and explain the result. It asks before publishing, connecting accounts, using sensitive data, or taking consequential actions.</p></div>
+        <p class="eyebrow">During and after the workshop</p>
+        <h2 class="h2" style="margin-top:12px">Sketch it today, build it with your source</h2>
+        <p class="intro">You probably won't have your source materials with you in the session. That's fine: a quick sketch shows you the shape of the tool and what it will need, and the full build can wait until you can gather the source.</p>
+        <div class="paths">
+          <div class="path"><span class="tag">If you have time today · about 10 minutes</span><h3>Quick sketch</h3><ol><li>Complete the six fields, tick <a href="#quick-start">Quick start</a>, and copy the brief.</li><li>Paste it into an agent tool. Use only the brief; don't paste confidential or patient material.</li><li>Look at the shape: does the layout fit the user and the job?</li><li>Save the agent's list of the source material and decisions it needs. That list is your gathering checklist.</li></ol></div>
+          <div class="path"><span class="tag">When you can gather your source</span><h3>Full build</h3><ol><li>Revise your six fields with what the sketch taught you.</li><li>Untick Quick start, copy the brief again, and attach the approved source.</li><li>Start a new project, or continue the sketch and ask the agent to list every placeholder it replaced.</li><li>Follow the eight steps below.</li></ol></div>
+        </div>
+        <div class="handoff"><h3>What the copied brief asks an agent to do</h3><p>Inspect the supplied source; flag missing or conflicting material; build the smallest working version within your boundaries; run your acceptance test; report what passed, failed, or could not be checked; and explain the result. It asks before publishing, connecting accounts, using sensitive data, or taking consequential actions. With Quick start ticked, it builds with labeled placeholders instead and lists what it needs from your source.</p></div>
+        <h3 class="sub-h">Building from your brief</h3>
         <div class="steps">
-          <div class="step"><strong>1. Try your test</strong>Use the safe scenario you wrote, not a real patient case.</div>
-          <div class="step"><strong>2. Check source and claims</strong>Find what the agent preserved, omitted, or invented.</div>
-          <div class="step"><strong>3. Request one revision</strong>Name the behavior that failed and what success looks like.</div>
-          <div class="step"><strong>4. Retest and review</strong>Keep the brief, source, and revision notes together.</div>
+          <div class="step"><strong>1. Pick an approved tool</strong>Choose one your organization allows for the material you will attach. Our demos used Base44 and Google AI Studio (see <a href="#explore">tools</a>).</div>
+          <div class="step"><strong>2. Prepare the source</strong>Export it in a format that keeps its links and structure. In one of our demos, the attachment step silently dropped links.</div>
+          <div class="step"><strong>3. Paste and attach</strong>Paste the copied brief, attach the source, and let the agent work. It may run for several minutes.</div>
+          <div class="step"><strong>4. Read its report as a claim</strong>Note what it says it built, flagged, and assumed, and then go check.</div>
+          <div class="step"><strong>5. Try your test</strong>Use the safe scenario you wrote, not a real patient case.</div>
+          <div class="step"><strong>6. Check source and claims</strong>Find what the agent preserved, omitted, or invented.</div>
+          <div class="step"><strong>7. Request one revision</strong>Name the behavior that failed and what success looks like. If something seems off, ask why.</div>
+          <div class="step"><strong>8. Retest and review</strong>Keep the brief, source, and revision notes together.</div>
         </div>
         <p style="margin-top:24px;max-width:850px;font-size:15px;line-height:1.65;color:var(--body)">A working preview is a prototype. Patient-facing content, clinical claims, and local workflows need appropriate evidence and human review before use.</p>
       </div>
@@ -113,10 +134,11 @@
     <section id="demos" class="section band">
       <div class="wrap">
         <p class="eyebrow">Workshop demonstrations</p>
-        <h2 class="h2" style="margin-top:12px">Two build stories, one design method</h2>
+        <h2 class="h2" style="margin-top:12px">Try the two demo tools</h2>
+        <p class="intro">Open each tool in the app it was built in. The build stories, including prompts, tests, and revisions, are in the session slides in the CFHA conference app.</p>
         <div class="resource-grid">
-          <div class="resource"><span class="tag">Joey's demo</span><h3>Practicum Training navigator</h3><p>An existing onboarding checklist became a browser tool with pacing, support-mode filters, progress tracking, and source flags. The demo highlights how an agent can inspect a source and build an interface, and why a person must verify coverage and boundaries.</p><p class="small">The source-based screenshot story and any viewer link will appear here after content and access review.</p></div>
-          <div class="resource"><span class="tag">Allie's demo</span><h3>Tool selected by Allie</h3><p>Allie will choose between her values card sort and sleep behavior change menu. Her build story will follow the same six brief fields and show the specific agent capabilities observed in that build.</p><p class="small">Selection, source review, and sharing details are pending presenter review.</p></div>
+          <div class="resource"><span class="tag">Demo 1 · Allie Mann · Base44</span><h3>Sleep Behavior Change Menu</h3><p>A therapist providing CBT-I selects strategies with a patient, and the tool produces a sleep plan that contains only those strategies.</p><p class="small">Shareable link coming soon.</p></div>
+          <div class="resource"><span class="tag">Demo 2 · Joey Tan · Google AI Studio</span><h3>Practicum Onboarding Checklist</h3><p>A long onboarding document became an interactive first-month guide for behavioral health practicum students, with a supervisor view and a resource index.</p><a href="https://fsc-onboarding-checklist.ai.studio/" target="_blank" rel="noopener noreferrer">Open the tool →</a></div>
         </div>
       </div>
     </section>
@@ -127,21 +149,23 @@
         <h2 class="h2" style="margin-top:12px">Compare what a tool lets you inspect and revise</h2>
         <p class="intro">These links are starting points, not a ranked recommendation. Use the same safe brief to compare setup effort, source handling, preview and revision, export or sharing, and whether your account is approved for the data and actions involved. Product features and access terms can change.</p>
         <div class="resource-grid">
-          <div class="resource"><span class="tag">Build environment</span><h3>Google AI Studio Build</h3><p>Official guide to prompting, previewing, and revising an app.</p><a href="https://ai.google.dev/gemini-api/docs/aistudio-build-mode" target="_blank" rel="noopener noreferrer">Read the Google guide →</a></div>
+          <div class="resource"><span class="tag">Start here · no code</span><h3>Claude Blattman</h3><p>A guide to AI for professionals who don't code, by political economist Chris Blattman. Start with the no-install path: chatbots, prompting, and AI project folders.</p><a href="https://claudeblattman.com/" target="_blank" rel="noopener noreferrer">Visit the guide →</a></div>
+          <div class="resource"><span class="tag">Build environment · Demo 1</span><h3>Base44</h3><p>Official docs for building an app from a prompt.</p><a href="https://docs.base44.com/" target="_blank" rel="noopener noreferrer">Read the Base44 docs →</a></div>
+          <div class="resource"><span class="tag">Build environment · Demo 2</span><h3>Google AI Studio Build</h3><p>Official guide to prompting, previewing, and revising an app.</p><a href="https://ai.google.dev/gemini-api/docs/aistudio-build-mode" target="_blank" rel="noopener noreferrer">Read the Google guide →</a></div>
           <div class="resource"><span class="tag">Agent in chat/workspace</span><h3>Claude Cowork</h3><p>Official guide to agentic tasks in Claude.</p><a href="https://support.claude.com/en/articles/13345190-get-started-with-claude-cowork" target="_blank" rel="noopener noreferrer">Read the Claude guide →</a></div>
           <div class="resource"><span class="tag">Agent in chat/workspace</span><h3>ChatGPT Work and Codex</h3><p>Official overview of agentic work in the OpenAI ecosystem.</p><a href="https://help.openai.com/en/articles/20001275-chatgpt-work-and-codex" target="_blank" rel="noopener noreferrer">Read the OpenAI guide →</a></div>
           <div class="resource"><span class="tag">Capability tour</span><h3>Simon Willison's NICAR workshop</h3><p>A worked introduction to coding agents through concrete tasks and checks.</p><a href="https://simonw.github.io/nicar-2026-coding-agents/" target="_blank" rel="noopener noreferrer">Explore the workshop →</a></div>
         </div>
-        <p class="small" style="margin-top:20px">Resource links checked 23 September 2026.</p>
+        <p class="small" style="margin-top:20px">Resource links checked 6 October 2026.</p>
       </div>
     </section>
   </main>
 
   <footer class="ws-footer dark">
     <div class="wrap">
-      <p>CFHA 2026 workshop resource · Updated 23 September 2026</p>
+      <p>CFHA 2026 workshop resource · Updated 6 October 2026</p>
       <p>Prepared by Joey Tan and Allie Mann, University of Virginia Department of Family Medicine. Hosted on Joey's personal site; this is not an official UVA Health webpage.</p>
-      <p>Companion to the participant build brief. Demo materials will be added after presenter review. Source: <a href="#brief">six-field build brief</a>.</p>
+      <p>Companion to session B09, "Putting AI to Work for You." Session slides and handouts are in the CFHA conference app.</p>
       <div class="home"><span>Part of <a href="../lab/">Curbside</a>, practical tools and guides for integrated care teams</span><a href="../index.html">Visit the homepage →</a></div>
     </div>
   </footer>
@@ -149,10 +173,11 @@
   <script>
     const labels = ['User and job','Approved source','First version','Boundaries','Acceptance test','Human review'];
     const values = () => labels.map((label,i) => `${i+1}. ${label}\n${document.getElementById(`f${i+1}`).value.trim() || '[complete this field]'}`).join('\n\n');
-    const buildText = () => `DESIGN A SMALL TOOL — AGENT-READY BRIEF\n\n${values()}\n\nHANDOFF INSTRUCTION\nBuild the smallest working version described above. First inspect the approved source I provide and tell me what is missing or uncertain. Preserve its meaning and links; do not invent missing content. Follow my boundaries. After building, run my acceptance test and report what passed, failed, or could not be checked. Show me the result and explain what changed. Ask before publishing, connecting accounts, using sensitive data, or making consequential changes. Treat the result as a prototype pending the human review named above.\n`;
+    const quickText = `QUICK-START HANDOFF (source not attached yet)\nI don't have my approved source with me yet. Build a quick sketch of the smallest working version described above so I can see the shape of the tool. Use clearly labeled placeholder content (for example, "[Sample item 1]") instead of real or invented clinical content, links, or policies. Follow my boundaries. When you finish, list (1) the source material you will need from me, (2) the decisions you made that my source should confirm, and (3) the questions you would ask before a full build. Do not ask me for patient information. Ask before publishing, connecting accounts, or making consequential changes. Treat this as a sketch to rebuild once I attach the source.\n`;
+    const buildText = () => document.getElementById('quick-start').checked ? `DESIGN A SMALL TOOL — QUICK-START BRIEF\n\n${values()}\n\n${quickText}` : `DESIGN A SMALL TOOL — AGENT-READY BRIEF\n\n${values()}\n\nHANDOFF INSTRUCTION\nBuild the smallest working version described above. First inspect the approved source I provide and tell me what is missing or uncertain. Preserve its meaning and links; do not invent missing content. Follow my boundaries. After building, run my acceptance test and report what passed, failed, or could not be checked. Show me the result and explain what changed. Ask before publishing, connecting accounts, using sensitive data, or making consequential changes. Treat the result as a prototype pending the human review named above.\n`;
     const status = document.getElementById('copy-status');
     document.getElementById('copy-brief').addEventListener('click', async () => {
-      try { await navigator.clipboard.writeText(buildText()); status.textContent='Brief copied. Paste it into an appropriate agentic tool and attach your approved source.'; }
+      try { await navigator.clipboard.writeText(buildText()); status.textContent=document.getElementById('quick-start').checked?'Quick-start brief copied. Paste it into an agent tool; no source needed for the sketch.':'Brief copied. Paste it into an appropriate agentic tool and attach your approved source.'; }
       catch { status.textContent='Copy was unavailable in this browser. Use Download as text instead.'; }
     });
     document.getElementById('download-brief').addEventListener('click', () => {
@@ -162,6 +187,6 @@
     });
     document.getElementById('print-page').addEventListener('click', () => window.print());
   </script>
-  <script type="application/json" id="artifact-source">{"canonical_markdown":"Projects/CFHA 2026 Presentation/CFHA 2026 Participant Build Brief Handout - Review Draft.md","created":"2026-09-23","artifact_type":"resource-page","source_summary":"CFHA six-field build brief, post-build revision loop, two demo summaries, and official tool exploration links.","assumptions":["Only approved or synthetic material is entered into agentic tools.","Clinical content and local workflow claims require human review before use.","Demo viewer links remain unpublished until source and access review."]}</script>
+  <script type="application/json" id="artifact-source">{"canonical_markdown":"Projects/CFHA 2026 Presentation/CFHA 2026 Participant Build Brief Handout - Review Draft.md","created":"2026-09-23","artifact_type":"resource-page","source_summary":"CFHA six-field build brief, build-and-revise steps, quick-start sketch path, links to the two demo tools, and tool exploration links.","updated":"2026-10-06","assumptions":["Only approved or synthetic material is entered into agentic tools.","Clinical content and local workflow claims require human review before use.","Demo tools are linked through each app's own sharing; build stories live in the session slides."]}</script>
 </body>
 </html>
