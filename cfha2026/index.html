@@ -45,6 +45,9 @@
     .quick { max-width:900px; margin-top:24px; padding:18px 20px; background:var(--paper); border:1px solid var(--edge); display:flex; gap:14px; align-items:flex-start; }
     .quick input { width:20px; height:20px; margin-top:2px; accent-color:var(--forest); flex:none; }
     .quick label { font-weight:600; font-size:16px; color:var(--ink); cursor:pointer; }
+    .quick.on { border-color:var(--forest); box-shadow:inset 4px 0 0 var(--forest); }
+    .quick .mode { display:none; margin-top:8px; font-size:14px; font-weight:600; color:var(--forest); }
+    .quick.on .mode { display:block; }
     .quick p { font-size:14.5px; line-height:1.55; color:var(--body); margin-top:4px; }
     .paths { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin-top:24px; }
     .path { background:var(--paper); border:1px solid var(--line); padding:26px; display:flex; flex-direction:column; gap:12px; }
@@ -99,7 +102,7 @@
           <div class="field"><label for="f5"><span class="num">5</span>Acceptance test</label><p>What safe example will show whether it works? What would make you revise it?</p><textarea id="f5" placeholder="Given this safe scenario… I expect… Revise if…"></textarea><div class="example">Example: A Week 1 user sees Week 1 tasks; progress survives refresh.</div></div>
           <div class="field"><label for="f6"><span class="num">6</span>Human review</label><p>Who checks the result before anyone else uses it?</p><textarea id="f6" placeholder="Reviewer… They must check…"></textarea><div class="example">Example: A supervisor checks source coverage and links; a trainee tests usability.</div></div>
         </div>
-        <div class="quick"><input type="checkbox" id="quick-start"><div><label for="quick-start">Quick start: I don't have my source with me yet</label><p>Changes the copied brief so the agent builds a quick sketch with clearly labeled placeholder content, then lists the source material and decisions it needs from you. Useful for trying an agent during the workshop. Untick it when you are ready to attach your source.</p></div></div>
+        <div class="quick"><input type="checkbox" id="quick-start"><div><label for="quick-start">Quick start: I don't have my source with me yet</label><p>Changes the copied brief so the agent builds a quick sketch with clearly labeled placeholder content, then lists the source material and decisions it needs from you. Useful for trying an agent during the workshop. Untick it when you are ready to attach your source.</p><p class="mode" aria-live="polite">✓ Quick start is on: Copy and Download will give you the quick-sketch brief.</p></div></div>
         <div class="actions field-actions"><button class="btn" id="copy-brief" type="button">Copy agent-ready brief</button><button class="btn ghost" id="download-brief" type="button">Download as text</button><button class="btn ghost" id="print-page" type="button">Print this page</button></div>
         <div id="copy-status" role="status" aria-live="polite"></div>
         <p class="small">For a full build, attach the approved source separately when you run the brief. Avoid entering confidential material in this page or an unapproved tool.</p>
@@ -176,6 +179,14 @@
     const quickText = `QUICK-START HANDOFF (source not attached yet)\nI don't have my approved source with me yet. Build a quick sketch of the smallest working version described above so I can see the shape of the tool. Use clearly labeled placeholder content (for example, "[Sample item 1]") instead of real or invented clinical content, links, or policies. Follow my boundaries. When you finish, list (1) the source material you will need from me, (2) the decisions you made that my source should confirm, and (3) the questions you would ask before a full build. Do not ask me for patient information. Ask before publishing, connecting accounts, or making consequential changes. Treat this as a sketch to rebuild once I attach the source.\n`;
     const buildText = () => document.getElementById('quick-start').checked ? `DESIGN A SMALL TOOL — QUICK-START BRIEF\n\n${values()}\n\n${quickText}` : `DESIGN A SMALL TOOL — AGENT-READY BRIEF\n\n${values()}\n\nHANDOFF INSTRUCTION\nBuild the smallest working version described above. First inspect the approved source I provide and tell me what is missing or uncertain. Preserve its meaning and links; do not invent missing content. Follow my boundaries. After building, run my acceptance test and report what passed, failed, or could not be checked. Show me the result and explain what changed. Ask before publishing, connecting accounts, using sensitive data, or making consequential changes. Treat the result as a prototype pending the human review named above.\n`;
     const status = document.getElementById('copy-status');
+    const quickBox = document.getElementById('quick-start');
+    const syncQuick = () => {
+      quickBox.closest('.quick').classList.toggle('on', quickBox.checked);
+      document.getElementById('copy-brief').textContent = quickBox.checked ? 'Copy quick-start brief' : 'Copy agent-ready brief';
+      status.textContent = '';
+    };
+    quickBox.addEventListener('change', syncQuick);
+    syncQuick();
     document.getElementById('copy-brief').addEventListener('click', async () => {
       try { await navigator.clipboard.writeText(buildText()); status.textContent=document.getElementById('quick-start').checked?'Quick-start brief copied. Paste it into an agent tool; no source needed for the sketch.':'Brief copied. Paste it into an appropriate agentic tool and attach your approved source.'; }
       catch { status.textContent='Copy was unavailable in this browser. Use Download as text instead.'; }
